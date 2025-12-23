@@ -6,13 +6,13 @@ Hypothesis-driven analysis of global MDR/RR-TB burden, resistance intensity, and
 
 Multidrug-resistant and rifampicin-resistant tuberculosis (MDR/RR-TB) remains a major obstacle to global tuberculosis control. While extensively drug-resistant tuberculosis (XDR-TB) represents the most severe clinical form, MDR/RR-TB affects a substantially larger population and constitutes the reservoir from which further resistance can emerge.  
 
-In this project, publicly available World Health Organization (WHO) MDR/RR-TB surveillance data were analysed using a hypothesis-driven framework to examine global patterns of drug-resistant TB, resistance intensity, temporal trends, and control timelines. The analysis highlights fundamental differences between high-burden and high-resistance settings and underscores the importance of prioritising MDR/RR-TB control to prevent future escalation of drug resistance.
+In this project, publicly available World Health Organisation (WHO) MDR/RR-TB surveillance data were analysed using a hypothesis-driven framework to examine global patterns of drug-resistant TB, resistance intensity, temporal trends, and control timelines. The analysis highlights fundamental differences between high-burden and high-resistance settings and underscores the importance of prioritising MDR/RR-TB control to prevent future escalation of drug resistance.
 
 ---
 
 ## Data Source
 
-World Health Organization (WHO)  
+World Health Organisation (WHO)  
 Global Tuberculosis Programme – MDR/RR-TB burden estimates  
 
 Raw data are publicly available from WHO and are not redistributed in this repository.
