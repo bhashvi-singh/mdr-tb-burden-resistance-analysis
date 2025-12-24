@@ -1,7 +1,6 @@
-This directory contains figures generated during the analysis.
 ############################################################
-# Figure generation script
-# Generates all publication-quality figures
+# TB MDR/RR-TB FIGURE GENERATION SCRIPT
+# Figures saved to existing "figures/" directory
 ############################################################
 
 ############################
@@ -18,29 +17,29 @@ for (pkg in required_packages) {
 }
 
 ############################
-# 1. DIRECTORY SETUP
+# 1. LOAD DATA
 ############################
 
-if (!dir.exists("figures")) {
-  dir.create("figures")
-}
-
-############################
-# 2. LOAD DATA SAFELY
-############################
-
+# Choose WHO MDR/RR-TB CSV file when prompted
 tb <- read_csv(file.choose(), show_col_types = FALSE)
 
+# Safety checks
 if (!"year" %in% colnames(tb)) {
   stop("ERROR: Wrong file selected (no 'year' column).")
 }
 
-if (length(grep("rr", colnames(tb), value = TRUE)) == 0) {
-  stop("ERROR: MDR/RR-TB variables not found.")
+if (!"e_inc_rr_num" %in% colnames(tb)) {
+  stop("ERROR: MDR/RR-TB burden column not found.")
 }
 
+############################
+# 2. PREPARE DATA
+############################
+
 latest_year <- max(tb$year, na.rm = TRUE)
-tb_latest <- tb %>% filter(year == latest_year)
+
+tb_latest <- tb %>%
+  filter(year == latest_year)
 
 ############################
 # FIGURE 1
@@ -74,6 +73,8 @@ p1 <- ggplot(tb_h1, aes(x = case_type, y = rr_percent)) +
 
 ggsave("figures/fig1_rr_tb_treatment_history.png",
        p1, width = 6, height = 5)
+     <img width="1074" height="888" alt="Figure 1 TB analysis" src="https://github.com/user-attachments/assets/f0633416-5803-4a4a-ad84-202c708a9533" />
+
 
 ############################
 # FIGURE 2
@@ -93,13 +94,15 @@ p2 <- ggplot(top_rr,
   coord_flip() +
   theme_minimal(base_size = 12) +
   labs(
-    title = paste("RR-TB among New TB Cases (", latest_year, ")", sep = ""),
+    title = paste("Top 15 Countries by RR-TB among New TB Cases (", latest_year, ")", sep = ""),
     x = "Country",
     y = "RR-TB (%)"
   )
 
 ggsave("figures/fig2_top15_rr_tb_new_cases.png",
        p2, width = 7, height = 5)
+<img width="1074" height="888" alt="Figure 2 TB analysis" src="https://github.com/user-attachments/assets/1679e7d0-6227-4527-ae76-fffdb358f2f1" />
+
 
 ############################
 # FIGURE 3
@@ -122,10 +125,12 @@ p3 <- ggplot(tb_burden_res,
 
 ggsave("figures/fig3_burden_vs_resistance.png",
        p3, width = 7, height = 5)
+ <img width="1074" height="888" alt="Figure 3 TB analysis" src="https://github.com/user-attachments/assets/fd62987d-544d-4033-8dfe-d99d549d039e" />
+
 
 ############################
 # FIGURE 4
-# MDR/RR-TB trend in highest-risk country
+# MDR/RR-TB trend in the highest-risk country
 ############################
 
 tb_risk <- tb_latest %>%
@@ -133,7 +138,9 @@ tb_risk <- tb_latest %>%
   mutate(xdr_risk_proxy = e_inc_rr_num * e_rr_pct_new) %>%
   arrange(desc(xdr_risk_proxy))
 
-top_country <- tb_risk %>% slice(1) %>% pull(country)
+top_country <- tb_risk %>%
+  slice(1) %>%
+  pull(country)
 
 tb_country <- tb %>%
   filter(country == top_country,
@@ -153,5 +160,27 @@ p4 <- ggplot(tb_country,
 
 ggsave("figures/fig4_rr_tb_trend_top_risk_country.png",
        p4, width = 7, height = 5)
+     <img width="1074" height="888" alt="Figure 4 TB analysis" src="https://github.com/user-attachments/assets/c5fc3ed7-4ab3-410f-af05-6ac9b9defa26" />
 
-###################
+
+
+# High-burden vs high-resistance comparison
+
+countries_focus <- c("India", "Russian Federation")
+
+tb_focus <- tb %>%
+  filter(country %in% countries_focus, !is.na(e_inc_rr_num)) %>%
+  arrange(country, year)
+
+ggplot(tb_focus,
+       aes(x = year, y = e_inc_rr_num, color = country)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  theme_minimal(base_size = 12) +
+  labs(
+    title = "MDR/RR-TB Burden Trends: High Burden vs High Resistance",
+    x = "Year",
+    y = "Estimated MDR/RR-TB cases",
+    color = "Country"
+  )
+<img width="1074" height="888" alt="High burden and high resistance" src="https://github.com/user-attachments/assets/8fad9b3c-3c42-4869-a156-0167a542765f" />
