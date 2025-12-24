@@ -5,8 +5,7 @@ Scripts are numbered to reflect the order in which they should be run.
 # Global MDR/RR-TB Analysis using WHO Surveillance Data
 # Author: Bhashvi Singh
 # Description:
-# Clean, reproducible analysis resolving all common R errors
-# encountered during exploratory epidemiological analysis.
+# Clean, reproducible analysis resolving all common R errors encountered during exploratory epidemiological analysis.
 ############################################################
 
 
